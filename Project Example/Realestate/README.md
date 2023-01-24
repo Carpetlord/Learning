@@ -1,6 +1,6 @@
 # Real Estate NFT DApp
 
-Dapp that simulate trading properties represented in NFT tokens
+Dapp simulating trading properties represented in NFT tokens that is made accordingly to dappuniversity tutorial.
 
 
 ## Technology Stack & Tools
