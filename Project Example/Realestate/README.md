@@ -1,5 +1,8 @@
 # Real Estate NFT DApp
 
+Dapp that simulate trading properties represented in NFT tokens
+
+
 ## Technology Stack & Tools
 
 - Solidity (Writing Smart Contracts & Tests)
