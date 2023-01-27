@@ -1,0 +1,102 @@
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+
+// Components
+import Navigation from './components/Navigation';
+import Search from './components/Search';
+import Home from './components/Home';
+
+// ABIs
+import RealEstate from './abis/RealEstate.json'
+import Escrow from './abis/Escrow.json'
+
+// Config
+import config from './config.json';
+
+function App() {
+  //function that reads and set account
+  const[account, setAccount] = useState(null)
+  //we need to read and set provider to
+  const[provider, setProvider] = useState(null)
+
+  //connection application to blockchain, that we want to get connections from mm
+  //it loads data from blockchain (not calling it on its own)
+  const loadBlockchainData = async() => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    //console.log(provider)
+    //setting provider
+    setProvider(provider)
+    //we want to get the network
+    const network = await provider.getNetwork()
+    //importing id of nft's
+    //config[network.chainId].RealEstate.address 
+
+    //importing id of chain from config file
+    //config[network.chainId].escrow.address 
+
+    //checking them out
+    //console.log(config[network.chainId].realEstate.address, config[network.chainId].escrow.address )
+    //doing it through ethersjs
+    const realEstate = new ethers.Contract(config[network.chainId].realEstate.address, RealEstate, provider)
+    //we want to get properties totalsupply
+    const totalSupply = await realEstate.totalSupply()
+    //console.log(totalSupply, toString())
+    
+    //mm injects to browser
+    //window.ethereum
+    //getting account from mm
+    //const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    //console.log(accounts)
+    //setting account state to component
+    //setAccount(accounts[0])
+    //console.log(accounts[0])
+
+    window.ethereum.on('accountsChanged', async () => {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = ethers.utils.getAddress(accounts[0])
+      setAccount(account);
+    })
+  
+    
+  } 
+  //calling data from blockchain and leaving empty array will detect any changes
+  useEffect(() => {
+    loadBlockchainData()
+  }, [])
+
+  return (
+    <div>
+
+      <Navigation account={account} setAccount={setAccount}/>
+      <Search />
+
+      <div className='cards__section'>
+
+        <h3>Welcome to Realestate</h3>
+
+        <hr />
+
+        <div className='cards'>
+          <div className='card'>
+            <div className='card__image'>
+              <img src='' alt="Home"></img>
+            </div>
+            <div className='card__info'>
+              <h4>1 ETH</h4>
+              <p>
+                <strong>1</strong> bds |
+                <strong>2</strong> ba |
+                <strong>3</strong> sqft
+              </p>
+              <p>1234 Gen Roosvelt st</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+export default App;
