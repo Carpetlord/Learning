@@ -20,3 +20,5 @@ npm install --save-dev hardhat
 npx hardhat
 
 npm install @openzeppelin/contracts
+
+npx hardhat run scripts/deploy.js --network goerli //or any other nertwork that we choose
