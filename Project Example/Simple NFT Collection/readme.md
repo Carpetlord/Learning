@@ -10,8 +10,11 @@ npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
 mkdir "folder name"
+
 cd "folder name"
+
 npm init -y
+
 npm install --save-dev hardhat
 
 npx hardhat
